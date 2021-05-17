@@ -38,6 +38,7 @@ steps:
     set -x && \
     # Configure Git to create commits with Cloud Build's service account
     git config user.email $(gcloud auth list --filter=status:ACTIVE --format='value(account)') && \
+    git remote set-url origin git@github.com:venkatakkineni/hello-cloudbuild-env.git && \
     # Switch to the production branch and copy the kubernetes.yaml file from the candidate branch
     git fetch origin production && git checkout production && \
     git checkout $COMMIT_SHA kubernetes.yaml && \
@@ -46,4 +47,13 @@ steps:
     $(git log --format=%B -n 1 $COMMIT_SHA)" && \
     # Push the changes back to Cloud Source Repository
     git push origin production
+  volumes:
+  - name: 'ssh'
+    path: /root/.ssh
 # [END cloudbuild-delivery]
+
+
+availableSecrets:
+  secretManager:
+  - versionName: projects/$PROJECT_ID/secrets/github-secret/versions/latest
+    env: 'SSH_KEY'
