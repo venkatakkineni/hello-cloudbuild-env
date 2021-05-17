@@ -30,7 +30,7 @@ spec:
     spec:
       containers:
       - name: hello-cloudbuild
-        image: gcr.io/plasma-outcome-310017/hello-cloudbuild:4289fb5
+        image: gcr.io/plasma-outcome-310017/hello-cloudbuild:3f93ba4
         ports:
         - containerPort: 8080
 ---
